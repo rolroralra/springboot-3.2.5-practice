@@ -4,9 +4,19 @@ import com.example.project.repository.jpa.entity.item.ItemEntity;
 import com.example.project.repository.jpa.repository.item.model.CategoryPriceDto;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface ItemJpaRepository extends JpaRepository<ItemEntity, Long>, CustomItemJpaRepository {
+
+    List<ItemEntity> findAllByBrand_Id(Long brandId);
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query("UPDATE ItemEntity i SET i.brand = null WHERE i.brand.id = :brandId")
+    void setNoBrandByBrandId(Long brandId);
+
     @Query(
         value = """
     WITH MIN_PRICE_GROUP_BY_CATEGORY_ID AS (

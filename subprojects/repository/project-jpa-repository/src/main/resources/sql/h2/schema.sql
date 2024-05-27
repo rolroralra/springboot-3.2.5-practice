@@ -35,9 +35,7 @@ create table item (
                       price bigint,
                       insert_at timestamp(6) default current_timestamp,
                       update_at timestamp(6) default current_timestamp,
-                      name varchar(255),
-                      constraint item_fk_1 foreign key (brand_id) references brand(id),
-                      constraint item_fk_2 foreign key (category_id) references category(id)
+                      name varchar(255)
 );
 
 create index item_category_price_idx_1 on item (category_id, price);

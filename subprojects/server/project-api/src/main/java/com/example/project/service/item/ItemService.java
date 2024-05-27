@@ -62,7 +62,7 @@ public class ItemService {
     }
 
     @Transactional
-    public void deleteItem(Long itemId) {
+    public void deleteItemById(Long itemId) {
         itemJpaRepository.findById(itemId).ifPresentOrElse(
             itemJpaRepository::delete,
             () -> {

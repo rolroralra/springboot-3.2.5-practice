@@ -38,15 +38,41 @@ Content-Type: application/json
 ### DELETE /api/v1/items/{item-id}
 DELETE http://localhost:8080/api/v1/items/73
 
-
 ### GET /api/v1/brands
 GET http://localhost:8080/api/v1/brands?page=0&size=20
 
 ### GET /api/v1/brands/{brand-id}
-GET http://localhost:8080/api/v1/brands/2
+GET http://localhost:8080/api/v1/brands/1
+
+### POST /api/v1/brands
+POST http://localhost:8080/api/v1/brands
+Content-Type: application/json
+
+{
+  "name": "Nike"
+}
+
+### PUT /api/v1/brands/{brand-id}
+PUT http://localhost:8080/api/v1/brands/10
+Content-Type: application/json
+
+{
+  "name": "Adidas"
+}
+
+### PATCH /api/v1/brands/{brand-id}
+PATCH http://localhost:8080/api/v1/brands/10
+Content-Type: application/json
+
+{
+  "name": "Puma"
+}
+
+### DELETE /api/v1/brands/{brand-id}
+DELETE http://localhost:8080/api/v1/brands/1
 
 ### GET /api/v1/categories
-GET http://localhost:8080/api/v1/categories?page=0&size=20
+GET http://localhost:8080/api/v1/categories
 
 ### GET /api/v1/categories/{category-id}
 GET http://localhost:8080/api/v1/categories/3

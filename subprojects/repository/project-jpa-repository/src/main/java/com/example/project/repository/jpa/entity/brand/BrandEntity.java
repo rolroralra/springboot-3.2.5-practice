@@ -8,10 +8,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 
 @Entity
 @Table(name = "BRAND")
@@ -20,6 +22,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"id", "name"})
+@Builder
 public class BrandEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +34,9 @@ public class BrandEntity extends BaseTimeEntity {
         this.name = name;
     }
 
-
+    public void changeName(String name) {
+        if (StringUtils.isNotBlank(name)) {
+            setName(name);
+        }
+    }
 }

@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,11 +60,15 @@ public class ItemEntity extends BaseTimeEntity {
     }
 
     public String getBrandName() {
-        return brand.getName();
+        return Optional.ofNullable(brand).map(BrandEntity::getName).orElse("N/A");
     }
 
     public String getCategoryName() {
         return category.getName();
+    }
+
+    public Long getBrandId() {
+        return brand.getId();
     }
 
     public void changeBrand(BrandEntity brand) {
