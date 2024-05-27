@@ -3,6 +3,7 @@ val queryDslVersion = dependencyManagement.importedProperties["querydsl.version"
 dependencies {
     api("org.springframework.boot:spring-boot-starter-data-jpa")
 
+    implementation(platform("com.querydsl:querydsl-bom:$queryDslVersion"))
     implementation("com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta")
     implementation("com.querydsl:querydsl-core:${queryDslVersion}")
     implementation("com.querydsl:querydsl-collections:${queryDslVersion}")

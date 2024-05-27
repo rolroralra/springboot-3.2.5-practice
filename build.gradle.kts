@@ -63,7 +63,6 @@ subprojects {
 		implementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
 		implementation(platform("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"))
 		implementation(platform("org.testcontainers:testcontainers-bom:$testContainersVersion"))
-		implementation(platform("com.querydsl:querydsl-bom:$queryDslVersion"))
 //		implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:spring-cloud-aws-dependencies:$springCloudAwsVersion"))
 
 //		implementation("org.apache.commons:commons-lang3:${apacheCommonsLang3Version}")
