@@ -13,15 +13,22 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import com.example.project.controller.AbstractControllerTest;
 import com.example.project.controller.item.dto.ItemResponseDto;
 import com.example.project.controller.item.steps.ItemSteps;
+import com.example.project.exception.NotFoundException;
+import com.example.project.repository.jpa.entity.item.ItemEntity;
+import com.example.project.repository.jpa.repository.item.ItemJpaRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.restdocs.snippet.Snippet;
 
 class ItemControllerTest extends AbstractControllerTest {
+
+    @Autowired
+    private ItemJpaRepository itemRepository;
 
     @Override
     protected String identifier() {
@@ -58,7 +65,7 @@ class ItemControllerTest extends AbstractControllerTest {
     @Test
     void getCategoryById() {
         // given
-        Long givenItemId = 1L;
+        Long givenItemId = getGivenItemId();
 
         // when
         ExtractableResponse<Response> response =
@@ -125,7 +132,7 @@ class ItemControllerTest extends AbstractControllerTest {
     @Test
     void updateItemByPutMethod() {
         // given
-        Long givenItemId = 1L;
+        Long givenItemId = getGivenItemId();
         String givenRequestBody = """
         {
             "name": "item",
@@ -172,7 +179,7 @@ class ItemControllerTest extends AbstractControllerTest {
     @Test
     void updateItemByPatchMethod() {
         // given
-        Long givenItemId = 1L;
+        Long givenItemId = getGivenItemId();
         String givenRequestBody = """
         {
             "name": "item",
@@ -219,7 +226,7 @@ class ItemControllerTest extends AbstractControllerTest {
     @Test
     void deleteItem() {
         // given
-        Long givenItemId = 1L;
+        Long givenItemId = getGivenItemId();
 
         // expected
         given(
@@ -274,5 +281,13 @@ class ItemControllerTest extends AbstractControllerTest {
                 .type(NUMBER)
                 .description("itemPrice")
         );
+    }
+
+    private Long getGivenItemId() {
+        return itemRepository.findAll(PageRequest.ofSize(10))
+            .stream()
+            .map(ItemEntity::getId)
+            .findFirst()
+            .orElseThrow(() -> new NotFoundException(ItemEntity.class));
     }
 }
