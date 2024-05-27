@@ -39,3 +39,6 @@ create table item (
                       constraint item_fk_1 foreign key (brand_id) references brand(id),
                       constraint item_fk_2 foreign key (category_id) references category(id)
 );
+
+create index item_category_price_idx_1 on item (category_id, price);
+create index item_brand_idx_2 ON item (brand_id);

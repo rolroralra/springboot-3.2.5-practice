@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public abstract class AbstractJpaBaseTimeEntityRepositoryTest<T extends BaseTimeEntity, ID> extends AbstractJpaRepositoryTest<T, ID> {
     @Test
-    @DisplayName("INSERT할 때, 자동적으로 insert_at, update_at 컬럼이 채워진다")
+    @DisplayName("Auditing 기능이 동작한다.")
     void testJpaAuditing() {
         // Given
         T entity = createTestInstance();

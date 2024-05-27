@@ -6,6 +6,7 @@ val javaVersion = JavaVersion.VERSION_21
 val springBootVersion: String by project
 val springCloudVersion: String by project
 val springCloudAwsVersion: String by project
+val queryDslVersion: String by project
 val log4jVersion: String by project
 val testContainersVersion: String by project
 val apacheCommonsLang3Version: String by project
@@ -14,6 +15,7 @@ val nettyResolverDnsNativeMacOsVersion = "4.1.109.Final:osx-aarch_64"
 
 plugins {
 	java
+	idea
 	id("org.jetbrains.kotlin.jvm")
 	id("io.spring.dependency-management")
 	id("org.springframework.boot")
@@ -34,6 +36,7 @@ subprojects {
 	}
 
 	apply(plugin = "java")
+	apply(plugin = "idea")
 	apply(plugin = "org.springframework.boot")
 	apply(plugin = "io.spring.dependency-management")
 	apply(plugin = "org.jetbrains.kotlin.jvm")
@@ -50,7 +53,7 @@ subprojects {
 
 	the<DependencyManagementExtension>().apply {
 		imports {
-			mavenBom("org.testcontainers:testcontainers-bom:${testContainersVersion}")
+			mavenBom("org.testcontainers:testcontainers-bom:$testContainersVersion")
 		}
 	}
 
@@ -59,7 +62,8 @@ subprojects {
 
 		implementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
 		implementation(platform("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"))
-		implementation(platform("org.testcontainers:testcontainers-bom:${testContainersVersion}"))
+		implementation(platform("org.testcontainers:testcontainers-bom:$testContainersVersion"))
+		implementation(platform("com.querydsl:querydsl-bom:$queryDslVersion"))
 //		implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:spring-cloud-aws-dependencies:$springCloudAwsVersion"))
 
 //		implementation("org.apache.commons:commons-lang3:${apacheCommonsLang3Version}")
@@ -78,7 +82,7 @@ subprojects {
 		testAnnotationProcessor("org.projectlombok:lombok")
 
 		testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-//		testRuntimeOnly("io.netty:netty-resolver-dns-native-macos:${nettyResolverDnsNativeMacOsVersion}")
+		testRuntimeOnly("io.netty:netty-resolver-dns-native-macos:${nettyResolverDnsNativeMacOsVersion}")
 	}
 
 	tasks.withType<JavaCompile> {
@@ -87,7 +91,7 @@ subprojects {
 
 	tasks.withType<Test> {
 		useJUnitPlatform()
-		jvmArgs = listOf(
+		jvmArgs(
 			"-XX:+EnableDynamicAgentLoading",
 			"-Djdk.instrument.traceUsage",
 			"-Djdk.attach.allowAttachSelf=true",
@@ -106,10 +110,4 @@ subprojects {
 
 tasks.bootJar {
 	enabled = false
-}
-
-dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

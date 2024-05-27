@@ -4,6 +4,7 @@ import com.example.project.repository.jpa.entity.BaseTimeEntity;
 import com.example.project.repository.jpa.entity.brand.BrandEntity;
 import com.example.project.repository.jpa.entity.category.CategoryEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,11 +28,11 @@ public class ItemEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private BrandEntity brand;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
@@ -42,5 +43,16 @@ public class ItemEntity extends BaseTimeEntity {
     public ItemEntity(String name, Long price) {
         this.name = name;
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemEntity{" +
+            "id=" + id +
+            ", brand=" + brand +
+            ", category=" + category +
+            ", name='" + name + '\'' +
+            ", price=" + price +
+            '}';
     }
 }
