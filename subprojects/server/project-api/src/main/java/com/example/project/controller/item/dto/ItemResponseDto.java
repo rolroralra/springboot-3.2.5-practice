@@ -7,6 +7,8 @@ public class ItemResponseDto {
     @Builder
     public record Get (
         Long id,
+        String brandName,
+        String categoryName,
         String name,
         Long price
     ) {
@@ -14,6 +16,8 @@ public class ItemResponseDto {
         public static Get fromEntity(ItemEntity itemEntity) {
             return Get.builder()
                 .id(itemEntity.getId())
+                .brandName(itemEntity.getBrandName())
+                .categoryName(itemEntity.getCategoryName())
                 .name(itemEntity.getName())
                 .price(itemEntity.getPrice())
                 .build();

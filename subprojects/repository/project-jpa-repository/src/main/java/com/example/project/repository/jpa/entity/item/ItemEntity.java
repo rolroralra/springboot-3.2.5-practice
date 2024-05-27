@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,7 @@ import lombok.Setter;
 @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class ItemEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,5 +56,37 @@ public class ItemEntity extends BaseTimeEntity {
             ", name='" + name + '\'' +
             ", price=" + price +
             '}';
+    }
+
+    public String getBrandName() {
+        return brand.getName();
+    }
+
+    public String getCategoryName() {
+        return category.getName();
+    }
+
+    public void changeBrand(BrandEntity brand) {
+        if (brand != null) {
+            setBrand(brand);
+        }
+    }
+
+    public void changeCategory(CategoryEntity category) {
+        if (category != null) {
+            setCategory(category);
+        }
+    }
+
+    public void changeName(String name) {
+        if (name != null) {
+            setName(name);
+        }
+    }
+
+    public void changePrice(Long price) {
+        if (price != null && price >= 0) {
+            setPrice(price);
+        }
     }
 }

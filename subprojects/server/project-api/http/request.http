@@ -1,17 +1,53 @@
-###
+### GET /api/v1/items
 GET http://localhost:8080/api/v1/items?page=0&size=20
 
-###
-GET http://localhost:8080/api/v1/items/1
+### GET /api/v1/items/{item-id}
+GET http://localhost:8080/api/v1/items/74
 
-###
+### POST /api/v1/items
+POST http://localhost:8080/api/v1/items
+Content-Type: application/json
+
+{
+  "name": "B-상의-111",
+  "price": 50000,
+  "brandId": 2,
+  "categoryId": 1
+}
+
+### PUT /api/v1/items/{item-id}
+PUT http://localhost:8080/api/v1/items/73
+Content-Type: application/json
+
+{
+  "name": "C-상의-1112",
+  "price": 60000,
+  "brandId": 3,
+  "categoryId": 1
+}
+
+### PATCH /api/v1/items/{item-id}
+PATCH http://localhost:8080/api/v1/items/73
+Content-Type: application/json
+
+{
+  "name": "C-상의-1114444",
+  "price": 70001
+}
+
+### DELETE /api/v1/items/{item-id}
+DELETE http://localhost:8080/api/v1/items/73
+
+
+### GET /api/v1/brands
 GET http://localhost:8080/api/v1/brands?page=0&size=20
 
-###
+### GET /api/v1/brands/{brand-id}
 GET http://localhost:8080/api/v1/brands/2
 
-###
+### GET /api/v1/categories
 GET http://localhost:8080/api/v1/categories?page=0&size=20
 
-###
+### GET /api/v1/categories/{category-id}
 GET http://localhost:8080/api/v1/categories/3
+
