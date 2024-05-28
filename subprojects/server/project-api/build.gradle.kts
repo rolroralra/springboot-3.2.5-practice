@@ -9,3 +9,14 @@ dependencies {
     testImplementation("org.springframework.restdocs:spring-restdocs-restassured")
     testImplementation("io.rest-assured:rest-assured")
 }
+
+tasks.bootJar {
+    enabled = true
+}
+
+tasks.bootBuildImage {
+    val imageNameProperty = project.findProperty("imageName") as String? ?: "com.example.project-api"
+    val imageTagProperty = project.findProperty("imageTag") as String? ?: project.version.toString()
+
+    imageName.set("$imageNameProperty:$imageTagProperty")
+}
