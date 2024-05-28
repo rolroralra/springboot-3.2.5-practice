@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.example.project.repository.jpa.config.HibernateJpaConfig;
 import com.example.project.repository.jpa.config.TestHibernateJpaConfig;
 import com.example.project.repository.jpa.repository.category.CategoryJpaRepository;
-import com.example.project.repository.jpa.repository.item.model.BrandMinPriceSummationDto;
-import com.example.project.repository.jpa.repository.item.model.CategoryMinMaxPriceDto;
-import com.example.project.repository.jpa.repository.item.model.CategoryMinPriceSummationDto;
-import com.example.project.repository.jpa.repository.item.model.CategoryPriceDto;
+import com.example.project.repository.jpa.repository.item.model.BrandMinPriceSummationModel;
+import com.example.project.repository.jpa.repository.item.model.CategoryMinMaxPriceModel;
+import com.example.project.repository.jpa.repository.item.model.CategoryMinPriceSummationModel;
+import com.example.project.repository.jpa.repository.item.model.CategoryPriceModel;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -32,11 +32,8 @@ class CustomItemJpaRepositoryTest {
 
     @Test
     void 구현1_카테고리_별_최저가격_브랜드와_상품_가격과_총액을_조회할_수_있다() {
-        // given
-        List<String> expectedCategoryNames = categoryJpaRepository.findAllCategoryNames();
-
         // when
-        CategoryMinPriceSummationDto result = itemJpaRepository.findMinPriceGroupByCategoryId();
+        CategoryMinPriceSummationModel result = itemJpaRepository.findMinPriceGroupByCategoryId();
 
         // then
         List<String> categoryNames = result.getCategoryNames();
@@ -49,7 +46,9 @@ class CustomItemJpaRepositoryTest {
 
         assertAll(
             () -> assertThat(totalMinPrice).isEqualTo(34_100L),
-            () -> assertThat(categoryNames).containsExactlyElementsOf(expectedCategoryNames),
+            () -> assertThat(categoryNames).containsExactly(
+                "상의", "아우터", "바지", "스니커즈", "가방", "모자", "양말", "액세서리"
+            ),
             () -> assertThat(brandNames).containsExactly(
                 "C", "E", "D", "G", "A", "D", "I", "F"
             ),
@@ -60,30 +59,27 @@ class CustomItemJpaRepositoryTest {
 
     @Test
     void 구현2_단일_브랜드로_모든_카테고리_상품을_구매할_때_최저가격에_판매하는_브랜드와_카테고리의_상품가격과_총액을_조회할_수_있다() {
-        // given
-        List<String> givenCategoryNames = categoryJpaRepository.findAllCategoryNames();
-
         // when
-        BrandMinPriceSummationDto brandIdHavingMinPriceSummation
+        BrandMinPriceSummationModel brandIdHavingMinPriceSummation
             = itemStatisticsJpaRepository.findBrandIdHavingMinPriceSummation();
 
-        List<CategoryPriceDto> categoryPriceDtos =
+        List<CategoryPriceModel> categoryPriceModels =
             itemJpaRepository.findMinPriceGroupByCategoryNameWhereBrandIdEq(
                 brandIdHavingMinPriceSummation.getBrandId()
             );
 
         // then
-        long itemPriceSum = categoryPriceDtos.stream()
-            .mapToLong(CategoryPriceDto::itemPrice)
+        long itemPriceSum = categoryPriceModels.stream()
+            .mapToLong(CategoryPriceModel::itemPrice)
             .sum();
 
-        List<String> categoryNames = categoryPriceDtos.stream()
-            .map(CategoryPriceDto::categoryName)
+        List<String> categoryNames = categoryPriceModels.stream()
+            .map(CategoryPriceModel::categoryName)
             .distinct()
             .toList();
 
-        List<Long> itemPriceList = categoryPriceDtos.stream()
-            .map(CategoryPriceDto::itemPrice)
+        List<Long> itemPriceList = categoryPriceModels.stream()
+            .map(CategoryPriceModel::itemPrice)
             .toList();
 
         assertAll(
@@ -95,8 +91,9 @@ class CustomItemJpaRepositoryTest {
             () -> assertThat(itemPriceSum)
                 .isEqualTo(brandIdHavingMinPriceSummation.getMinPriceSummation())
                 .isEqualTo(36100L),
-            () -> assertThat(categoryPriceDtos).hasSameSizeAs(givenCategoryNames),
-            () -> assertThat(categoryNames).containsExactlyElementsOf(givenCategoryNames),
+            () -> assertThat(categoryNames).containsExactly(
+                "상의", "아우터", "바지", "스니커즈", "가방", "모자", "양말", "액세서리"
+            ),
             () -> assertThat(itemPriceList).containsExactly(
                 10_100L, 5_100L, 3_000L, 9_500L, 2_500L, 1_500L, 2_400L, 2_000L
             )
@@ -110,7 +107,7 @@ class CustomItemJpaRepositoryTest {
         String expectedCategoryName = categoryJpaRepository.findCategoryNameById(categoryId);
 
         // when
-        CategoryMinMaxPriceDto lowestAndHighestPriceItemsByCategoryId =
+        CategoryMinMaxPriceModel lowestAndHighestPriceItemsByCategoryId =
             itemJpaRepository.findMinAndMaxPriceItemsByCategoryId(categoryId);
 
         // then

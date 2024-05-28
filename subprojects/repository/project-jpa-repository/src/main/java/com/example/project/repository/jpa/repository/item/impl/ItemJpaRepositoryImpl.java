@@ -8,11 +8,11 @@ import static com.example.project.repository.jpa.entity.item.QItemEntity.itemEnt
 import com.example.project.repository.jpa.entity.item.QItemEntity;
 import com.example.project.repository.jpa.repository.AbstractQueryDslRepository;
 import com.example.project.repository.jpa.repository.item.CustomItemJpaRepository;
-import com.example.project.repository.jpa.repository.item.model.BrandPriceDto;
-import com.example.project.repository.jpa.repository.item.model.CategoryBrandMinPriceDto;
-import com.example.project.repository.jpa.repository.item.model.CategoryMinMaxPriceDto;
-import com.example.project.repository.jpa.repository.item.model.CategoryMinPriceSummationDto;
-import com.example.project.repository.jpa.repository.item.model.CategoryPriceDto;
+import com.example.project.repository.jpa.repository.item.model.BrandPriceModel;
+import com.example.project.repository.jpa.repository.item.model.CategoryBrandMinPriceModel;
+import com.example.project.repository.jpa.repository.item.model.CategoryMinMaxPriceModel;
+import com.example.project.repository.jpa.repository.item.model.CategoryMinPriceSummationModel;
+import com.example.project.repository.jpa.repository.item.model.CategoryPriceModel;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
@@ -28,7 +28,7 @@ public class ItemJpaRepositoryImpl extends AbstractQueryDslRepository implements
     }
 
     @Override
-    public CategoryMinPriceSummationDto findMinPriceGroupByCategoryId() {
+    public CategoryMinPriceSummationModel findMinPriceGroupByCategoryId() {
         QItemEntity subItemEntity = new QItemEntity("subItemEntity");
 
         // 서브쿼리: 각 카테고리별 최저 가격
@@ -52,11 +52,11 @@ public class ItemJpaRepositoryImpl extends AbstractQueryDslRepository implements
             .fetch();
 
         // 카테고리별 최저가 브랜드와 가격 조회
-        List<CategoryBrandMinPriceDto> categoryBrandMinPriceDtos = minPriceResults.stream()
+        List<CategoryBrandMinPriceModel> categoryBrandMinPriceModels = minPriceResults.stream()
             .collect(
                 Collectors.toMap(
                     tuple -> tuple.get(itemEntity.category.name),
-                    tuple -> new BrandPriceDto(
+                    tuple -> new BrandPriceModel(
                         tuple.get(itemEntity.brand.name),
                         tuple.get(itemEntity.price)
                     ),
@@ -65,23 +65,23 @@ public class ItemJpaRepositoryImpl extends AbstractQueryDslRepository implements
                 )
             )
             .entrySet().stream()
-            .map(entry -> new CategoryBrandMinPriceDto(entry.getKey(), List.of(entry.getValue())))
+            .map(entry -> new CategoryBrandMinPriceModel(entry.getKey(), List.of(entry.getValue())))
             .toList();
 
-        Long totalMinPrice = categoryBrandMinPriceDtos.stream().map(CategoryBrandMinPriceDto::minBrandPrice)
+        Long totalMinPrice = categoryBrandMinPriceModels.stream().map(CategoryBrandMinPriceModel::minBrandPrice)
             .map(List::getFirst)
-            .mapToLong(BrandPriceDto::price)
+            .mapToLong(BrandPriceModel::price)
             .sum();
 
-        return new CategoryMinPriceSummationDto(categoryBrandMinPriceDtos, totalMinPrice);
+        return new CategoryMinPriceSummationModel(categoryBrandMinPriceModels, totalMinPrice);
     }
 
     @Override
-    public List<CategoryPriceDto> findMinPriceGroupByCategoryNameWhereBrandIdEq(Long brandId) {
+    public List<CategoryPriceModel> findMinPriceGroupByCategoryNameWhereBrandIdEq(Long brandId) {
         return queryFactory
             .select(
                 Projections.constructor(
-                    CategoryPriceDto.class,
+                    CategoryPriceModel.class,
                     categoryEntity.name,
                     itemEntity.price.min()))
             .from(itemEntity)
@@ -93,7 +93,7 @@ public class ItemJpaRepositoryImpl extends AbstractQueryDslRepository implements
     }
 
     @Override
-    public CategoryMinMaxPriceDto findMinAndMaxPriceItemsByCategoryId(Long categoryId) {
+    public CategoryMinMaxPriceModel findMinAndMaxPriceItemsByCategoryId(Long categoryId) {
 
         QItemEntity subItemEntity = new QItemEntity("subItemEntity");
 
@@ -139,17 +139,17 @@ public class ItemJpaRepositoryImpl extends AbstractQueryDslRepository implements
             )
             .fetch();
 
-        List<BrandPriceDto> lowestPrice = minPriceResults.stream()
-            .map(tuple -> new BrandPriceDto(tuple.get(itemEntity.brand.name), tuple.get(itemEntity.price)))
+        List<BrandPriceModel> lowestPrice = minPriceResults.stream()
+            .map(tuple -> new BrandPriceModel(tuple.get(itemEntity.brand.name), tuple.get(itemEntity.price)))
             .toList();
 
-        List<BrandPriceDto> highestPrice = maxPriceResults.stream()
-            .map(tuple -> new BrandPriceDto(tuple.get(itemEntity.brand.name), tuple.get(itemEntity.price)))
+        List<BrandPriceModel> highestPrice = maxPriceResults.stream()
+            .map(tuple -> new BrandPriceModel(tuple.get(itemEntity.brand.name), tuple.get(itemEntity.price)))
             .toList();
 
         String categoryName = minPriceResults.stream().map(tuple -> tuple.get(categoryEntity.name)).findFirst().orElse(null);
 
-        return new CategoryMinMaxPriceDto(
+        return new CategoryMinMaxPriceModel(
             categoryName,
             lowestPrice,
             highestPrice);

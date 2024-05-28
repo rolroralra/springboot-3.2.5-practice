@@ -2,9 +2,9 @@ package com.example.project.repository.jpa.repository.item.model;
 
 import java.util.List;
 
-public record CategoryBrandMinPriceDto(
+public record CategoryBrandMinPriceModel(
     String categoryName,
-    List<BrandPriceDto> minBrandPrice
+    List<BrandPriceModel> minBrandPrice
 ) {
 
 }

@@ -1,29 +1,33 @@
 package com.example.project.controller.item.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 public class ItemRequestDto {
     public record Post(
-        String name,
-        Long brandId,
-        Long categoryId,
-        Long price
+        @NotBlank String name,
+        @NotNull Long brandId,
+        @NotNull Long categoryId,
+        @Positive Long price
     ) {
 
     }
 
     public record Patch(
-        String name,
-        Long brandId,
-        Long categoryId,
-        Long price
+        @NotBlank String name,
+        @NotNull Long brandId,
+        @NotNull Long categoryId,
+        @Positive Long price
     ) {
 
     }
 
     public record Put(
-        String name,
-        Long brandId,
-        Long categoryId,
-        Long price
+        @NotBlank String name,
+        @NotNull Long brandId,
+        @NotNull Long categoryId,
+        @Positive Long price
     ) {
 
     }

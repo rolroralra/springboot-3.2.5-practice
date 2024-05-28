@@ -1,7 +1,7 @@
 package com.example.project.repository.jpa.repository.item;
 
 import com.example.project.repository.jpa.entity.item.ItemEntity;
-import com.example.project.repository.jpa.repository.item.model.CategoryPriceDto;
+import com.example.project.repository.jpa.repository.item.model.CategoryPriceModel;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -41,5 +41,5 @@ public interface ItemJpaRepository extends JpaRepository<ItemEntity, Long>, Cust
         AND i.PRICE = pc.MIN_PRICE
     ORDER BY i.CATEGORY_ID;
 """,    nativeQuery = true)
-    List<CategoryPriceDto> findMinPriceGroupByCategoryName();
+    List<CategoryPriceModel> findMinPriceGroupByCategoryName();
 }

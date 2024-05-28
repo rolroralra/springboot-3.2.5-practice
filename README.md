@@ -1,10 +1,10 @@
 # TODO
 - Github 의 Readme 에는 아래 내용이 포함되어야 합니다.
-  - [ ] 구현범위에대한설명
+  - [x] 구현범위에대한설명
   - [x] 코드 빌드, 테스트, 실행 방법
-  - [ ] 기타추가정보
+  - [x] 기타추가정보
   - 구현 서비스
-    - [ ] 카테고리 별 최저가격 브랜드와 상품 가격, 총액을 조회하는 API
+    - [x] 카테고리 별 최저가격 브랜드와 상품 가격, 총액을 조회하는 API
       - select category, brandName, itemPrice group by category
       - sum(itemPrice)
     - 단일 브랜드로 모든 카테고리 상품을 구매할 때 최저가격에 판매하는 브랜드와 카테고리의 상품가격, 총액을 조회하는 API
@@ -24,7 +24,7 @@
       "총액" : "36,100" }
     }
     ```
-  - [ ] 카테고리 이름으로 최저, 최고 가격 브랜드와 상품 가격을 조회하는 API
+  - [x] 카테고리 이름으로 최저, 최고 가격 브랜드와 상품 가격을 조회하는 API
     - 요청값: 카테고리명
     - 응답값
     ```json
@@ -44,7 +44,7 @@
       ]
     }
     ```
-  - [ ] 브랜드 및 상품을 추가 / 업데이트 / 삭제하는 API
+  - [x] 브랜드 및 상품을 추가 / 업데이트 / 삭제하는 API
     - `POST /api/v1/brands`
     - `PUT /api/v1/brand/{brand-id}`
     - `PATCH /api/v1/brands/{brand-id}`
@@ -58,10 +58,10 @@
   - ~~모니터링~~
   - ~~CI/CD~~
   - ~~인증및권한~~
-- [ ] Unit test
+- [x] Unit test
   - `:repository:project-jpa-repository` 단위 테스트
-- [ ] Integration test
-- [ ] Frontend 페이지 구현
+- [x] Integration test
+- [x] Frontend 페이지 구현
 
 # Development Environment
 - Java 21

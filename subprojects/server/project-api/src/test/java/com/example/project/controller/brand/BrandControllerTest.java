@@ -5,6 +5,7 @@ import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -58,7 +59,7 @@ class BrandControllerTest extends AbstractControllerTest {
 
         // then
         List<BrandResponseDto.Get> responseDtos
-            = response.jsonPath().getList(".", BrandResponseDto.Get.class);
+            = response.jsonPath().getList("content", BrandResponseDto.Get.class);
         responseDtos.forEach(BrandSteps::브랜드_응답_검증);
     }
 
@@ -126,7 +127,7 @@ class BrandControllerTest extends AbstractControllerTest {
         Long givenBrandId = getGivenBrandId();
         String givenRequestBody = """
         {
-            "name": "nike"
+            "name": "adidas"
         }
         """;
 
@@ -155,7 +156,7 @@ class BrandControllerTest extends AbstractControllerTest {
 
         assertThat(responseDto)
             .hasFieldOrPropertyWithValue("id", givenBrandId)
-            .hasFieldOrPropertyWithValue("name", "nike");
+            .hasFieldOrPropertyWithValue("name", "adidas");
     }
 
     @Test
@@ -225,14 +226,14 @@ class BrandControllerTest extends AbstractControllerTest {
     }
 
     private Snippet brandListResponseFieldsSnippet() {
-        return responseFields(
-            fieldWithPath("[]")
+        return relaxedResponseFields(
+            fieldWithPath(".content[]")
                 .type(ARRAY)
                 .description("brand array"),
-            fieldWithPath("[].id")
+            fieldWithPath(".content[].id")
                 .type(NUMBER)
                 .description("name"),
-            fieldWithPath("[].name")
+            fieldWithPath(".content[].name")
                 .type(STRING)
                 .description("brandName")
         );

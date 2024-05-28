@@ -96,6 +96,8 @@ public class ItemService {
 
         Preconditions.checkArgument(dto.name() != null, "Name must not be null");
         Preconditions.checkArgument(dto.price() != null, "Price must not be null");
+        Preconditions.checkArgument(dto.brandId() != null, "BrandId must not be null");
+        Preconditions.checkArgument(dto.categoryId() != null, "CategoryId must not be null");
 
         BrandEntity brandEntity = brandJpaRepository.findById(dto.brandId())
             .orElseThrow(() -> new NotFoundException(BrandEntity.class, dto.brandId()));

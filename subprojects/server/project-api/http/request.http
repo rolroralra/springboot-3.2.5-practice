@@ -77,3 +77,11 @@ GET http://localhost:8080/api/v1/categories
 ### GET /api/v1/categories/{category-id}
 GET http://localhost:8080/api/v1/categories/3
 
+### GET /api/v1/items/statistics/min-brand-price-group-by-category
+GET http://localhost:8080/api/v1/items/statistics/min-brand-price-group-by-category
+
+### GET /api/v1/items/statistics/min-single-brand-price
+GET http://localhost:8080/api/v1/items/statistics/min-single-brand-price
+
+### GET /api/v1/items/statistics/min-max-price
+GET http://localhost:8080/api/v1/items/statistics/min-max-price?categoryId=1

@@ -1,15 +1,15 @@
 package com.example.project.repository.jpa.repository.item;
 
-import com.example.project.repository.jpa.repository.item.model.CategoryMinMaxPriceDto;
-import com.example.project.repository.jpa.repository.item.model.CategoryMinPriceSummationDto;
-import com.example.project.repository.jpa.repository.item.model.CategoryPriceDto;
+import com.example.project.repository.jpa.repository.item.model.CategoryMinMaxPriceModel;
+import com.example.project.repository.jpa.repository.item.model.CategoryMinPriceSummationModel;
+import com.example.project.repository.jpa.repository.item.model.CategoryPriceModel;
 import java.util.List;
 
 public interface CustomItemJpaRepository {
 
-    CategoryMinPriceSummationDto findMinPriceGroupByCategoryId();
+    CategoryMinPriceSummationModel findMinPriceGroupByCategoryId();
 
-    List<CategoryPriceDto> findMinPriceGroupByCategoryNameWhereBrandIdEq(Long brandId);
+    List<CategoryPriceModel> findMinPriceGroupByCategoryNameWhereBrandIdEq(Long brandId);
 
-    CategoryMinMaxPriceDto findMinAndMaxPriceItemsByCategoryId(Long categoryId);
+    CategoryMinMaxPriceModel findMinAndMaxPriceItemsByCategoryId(Long categoryId);
 }

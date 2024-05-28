@@ -16,14 +16,14 @@ create sequence item_seq start with 1 increment by 1;
 -- Create tables with ID columns generated using the sequences
 create table brand (
     id bigint default next value for brand_seq primary key,
-    name varchar(255),
+    name varchar(255) unique,
     insert_at timestamp(6) default current_timestamp,
     update_at timestamp(6) default current_timestamp
 );
 
 create table category (
     id bigint default next value for category_seq primary key,
-    name varchar(255),
+    name varchar(255) unique,
     insert_at timestamp(6) default current_timestamp,
     update_at timestamp(6) default current_timestamp
 );
@@ -38,5 +38,7 @@ create table item (
     name varchar(255)
 );
 
-CREATE INDEX idx_item_category_price ON item (category_id, price);
-CREATE INDEX idx_item_category_price_brand ON item (category_id, price, brand_id);
+create index item_category_price_idx_1 on item (category_id, price);
+create index item_brand_idx_2 ON item (brand_id);
+create index brand_name_idx ON brand (name);
+create index category_name_idx ON category (name);

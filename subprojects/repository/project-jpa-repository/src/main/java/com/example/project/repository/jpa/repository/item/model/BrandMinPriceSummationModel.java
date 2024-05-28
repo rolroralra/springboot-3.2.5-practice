@@ -1,6 +1,6 @@
 package com.example.project.repository.jpa.repository.item.model;
 
-public interface BrandMinPriceSummationDto {
+public interface BrandMinPriceSummationModel {
     Long getBrandId();
 
     String getBrandName();

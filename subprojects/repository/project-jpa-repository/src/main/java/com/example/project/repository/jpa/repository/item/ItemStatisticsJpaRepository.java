@@ -1,7 +1,7 @@
 package com.example.project.repository.jpa.repository.item;
 
 import com.example.project.repository.jpa.entity.item.ItemEntity;
-import com.example.project.repository.jpa.repository.item.model.BrandMinPriceSummationDto;
+import com.example.project.repository.jpa.repository.item.model.BrandMinPriceSummationModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -23,5 +23,5 @@ public interface ItemStatisticsJpaRepository extends JpaRepository<ItemEntity, L
     LIMIT
         1
     """)
-    BrandMinPriceSummationDto findBrandIdHavingMinPriceSummation();
+    BrandMinPriceSummationModel findBrandIdHavingMinPriceSummation();
 }

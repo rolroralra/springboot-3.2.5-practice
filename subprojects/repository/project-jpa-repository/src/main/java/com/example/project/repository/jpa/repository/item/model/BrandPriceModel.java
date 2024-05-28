@@ -1,6 +1,6 @@
 package com.example.project.repository.jpa.repository.item.model;
 
-public record BrandPriceDto(
+public record BrandPriceModel(
     String brandName,
     Long price
 ) {
