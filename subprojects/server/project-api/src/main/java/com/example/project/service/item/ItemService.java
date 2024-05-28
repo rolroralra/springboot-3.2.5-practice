@@ -11,9 +11,9 @@ import com.example.project.repository.jpa.repository.brand.BrandJpaRepository;
 import com.example.project.repository.jpa.repository.category.CategoryJpaRepository;
 import com.example.project.repository.jpa.repository.item.ItemJpaRepository;
 import com.google.common.base.Preconditions;
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,10 +35,9 @@ public class ItemService {
     }
 
     @Transactional(readOnly = true)
-    public List<Get> getItems(Pageable pageable) {
-        return itemJpaRepository.findAll(pageable).stream()
-            .map(ItemResponseDto.Get::fromEntity)
-            .toList();
+    public Page<Get> getItems(Pageable pageable) {
+        return itemJpaRepository.findAll(pageable)
+            .map(ItemResponseDto.Get::fromEntity);
     }
 
     @Transactional

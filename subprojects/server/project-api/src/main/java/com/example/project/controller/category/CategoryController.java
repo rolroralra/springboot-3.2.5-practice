@@ -5,6 +5,8 @@ import com.example.project.repository.jpa.repository.category.CategoryJpaReposit
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +19,17 @@ public class CategoryController {
     private final CategoryJpaRepository categoryJpaRepository;
 
     @GetMapping
-    public List<CategoryResponseDto.Get> getItems(Pageable pageable) {
+    public List<CategoryResponseDto.Get> getCategories(
+        @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
         return categoryJpaRepository.findAll(pageable).stream()
+            .map(CategoryResponseDto.Get::fromEntity)
+            .toList();
+    }
+
+    @GetMapping("/all")
+    public List<CategoryResponseDto.Get> getAllCategories() {
+        return categoryJpaRepository.findAll().stream()
             .map(CategoryResponseDto.Get::fromEntity)
             .toList();
     }

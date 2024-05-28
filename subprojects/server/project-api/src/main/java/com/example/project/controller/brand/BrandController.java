@@ -2,10 +2,14 @@ package com.example.project.controller.brand;
 
 import com.example.project.controller.brand.dto.BrandRequestDto;
 import com.example.project.controller.brand.dto.BrandResponseDto;
+import com.example.project.controller.brand.dto.BrandResponseDto.Get;
 import com.example.project.service.brand.BrandService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +29,15 @@ public class BrandController {
     private final BrandService brandService;
 
     @GetMapping
-    public List<BrandResponseDto.Get> getBrands(Pageable pageable) {
+    public Page<Get> getBrands(
+        @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
         return brandService.getBrands(pageable);
+    }
+
+    @GetMapping("/all")
+    public List<Get> getBrands() {
+        return brandService.getAllBrands();
     }
 
     @GetMapping("/{brandId}")

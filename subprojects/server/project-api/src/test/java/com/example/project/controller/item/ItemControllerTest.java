@@ -5,6 +5,7 @@ import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -58,7 +59,7 @@ class ItemControllerTest extends AbstractControllerTest {
 
         // then
         List<ItemResponseDto.Get> responseDtos
-            = response.jsonPath().getList(".", ItemResponseDto.Get.class);
+            = response.jsonPath().getList("content", ItemResponseDto.Get.class);
         responseDtos.forEach(ItemSteps::아이템_응답_검증);
     }
 
@@ -261,23 +262,23 @@ class ItemControllerTest extends AbstractControllerTest {
     }
 
     private Snippet itemListResponseFieldsSnippet() {
-        return responseFields(
-            fieldWithPath("[]")
+        return relaxedResponseFields(
+            fieldWithPath(".content[]")
                 .type(ARRAY)
                 .description("item array"),
-            fieldWithPath("[].id")
+            fieldWithPath(".content[].id")
                 .type(NUMBER)
                 .description("itemId"),
-            fieldWithPath("[].brandName")
+            fieldWithPath(".content[].brandName")
                 .type(STRING)
                 .description("brandName"),
-            fieldWithPath("[].categoryName")
+            fieldWithPath(".content[].categoryName")
                 .type(STRING)
                 .description("categoryName"),
-            fieldWithPath("[].name")
+            fieldWithPath(".content[].name")
                 .type(STRING)
                 .description("itemName"),
-            fieldWithPath("[].price")
+            fieldWithPath(".content[].price")
                 .type(NUMBER)
                 .description("itemPrice")
         );

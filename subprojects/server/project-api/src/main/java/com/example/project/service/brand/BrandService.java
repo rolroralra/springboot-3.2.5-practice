@@ -9,6 +9,7 @@ import com.example.project.repository.jpa.repository.brand.BrandJpaRepository;
 import com.example.project.repository.jpa.repository.item.ItemJpaRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +23,13 @@ public class BrandService {
     private final ItemJpaRepository itemJpaRepository;
 
     @Transactional(readOnly = true)
-    public List<Get> getBrands(Pageable pageable) {
-        return brandJpaRepository.findAll(pageable).stream()
+    public Page<Get> getBrands(Pageable pageable) {
+        return brandJpaRepository.findAll(pageable)
+            .map(BrandResponseDto.Get::fromEntity);
+    }
+    @Transactional(readOnly = true)
+    public List<Get> getAllBrands() {
+        return brandJpaRepository.findAll().stream()
             .map(BrandResponseDto.Get::fromEntity)
             .toList();
     }

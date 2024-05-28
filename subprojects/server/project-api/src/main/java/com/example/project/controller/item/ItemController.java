@@ -3,9 +3,11 @@ package com.example.project.controller.item;
 import com.example.project.controller.item.dto.ItemRequestDto;
 import com.example.project.controller.item.dto.ItemResponseDto;
 import com.example.project.service.item.ItemService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +28,9 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping
-    public List<ItemResponseDto.Get> getItems(Pageable pageable) {
+    public Page<ItemResponseDto.Get> getItems(
+        @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
         return itemService.getItems(pageable);
     }
 
