@@ -1,8 +1,13 @@
 ### GET /api/v1/items
 GET http://localhost:8080/api/v1/items?page=0&size=20
 
-### GET /api/v1/items/{item-id}
-GET http://localhost:8080/api/v1/items/74
+> {%
+ client.global.set("itemId", response.body.content[0].id)
+
+ %}
+
+### GET /api/v1/items/{itemId}
+GET http://localhost:8080/api/v1/items/{{itemId}}
 
 ### POST /api/v1/items
 POST http://localhost:8080/api/v1/items
@@ -15,8 +20,13 @@ Content-Type: application/json
   "categoryId": 1
 }
 
-### PUT /api/v1/items/{item-id}
-PUT http://localhost:8080/api/v1/items/73
+> {%
+ client.global.set("itemId", response.body.id)
+
+ %}
+
+### PUT /api/v1/items/{itemId}
+PUT http://localhost:8080/api/v1/items/{{itemId}}
 Content-Type: application/json
 
 {
@@ -26,8 +36,8 @@ Content-Type: application/json
   "categoryId": 1
 }
 
-### PATCH /api/v1/items/{item-id}
-PATCH http://localhost:8080/api/v1/items/73
+### PATCH /api/v1/items/{itemId}
+PATCH http://localhost:8080/api/v1/items/{{itemId}}
 Content-Type: application/json
 
 {
@@ -35,14 +45,19 @@ Content-Type: application/json
   "price": 70001
 }
 
-### DELETE /api/v1/items/{item-id}
-DELETE http://localhost:8080/api/v1/items/73
+### DELETE /api/v1/items/{itemId}
+DELETE http://localhost:8080/api/v1/items/{{itemId}}
 
 ### GET /api/v1/brands
 GET http://localhost:8080/api/v1/brands?page=0&size=20
 
-### GET /api/v1/brands/{brand-id}
-GET http://localhost:8080/api/v1/brands/1
+> {%
+ client.global.set("brandId", response.body.content[0].id)
+
+ %}
+
+### GET /api/v1/brands/{brandId}
+GET http://localhost:8080/api/v1/brands/{{brandId}}
 
 ### POST /api/v1/brands
 POST http://localhost:8080/api/v1/brands
@@ -52,16 +67,21 @@ Content-Type: application/json
   "name": "Nike"
 }
 
-### PUT /api/v1/brands/{brand-id}
-PUT http://localhost:8080/api/v1/brands/10
+> {%
+ client.global.set("brandId", response.body.id)
+
+ %}
+
+### PUT /api/v1/brands/{brandId}
+PUT http://localhost:8080/api/v1/brands/{{brandId}}
 Content-Type: application/json
 
 {
   "name": "Adidas"
 }
 
-### PATCH /api/v1/brands/{brand-id}
-PATCH http://localhost:8080/api/v1/brands/10
+### PATCH /api/v1/brands/{brandId}
+PATCH http://localhost:8080/api/v1/brands/{{brandId}}
 Content-Type: application/json
 
 {
@@ -69,13 +89,18 @@ Content-Type: application/json
 }
 
 ### DELETE /api/v1/brands/{brand-id}
-DELETE http://localhost:8080/api/v1/brands/1
+DELETE http://localhost:8080/api/v1/brands/{{brandId}}
 
 ### GET /api/v1/categories
 GET http://localhost:8080/api/v1/categories
 
-### GET /api/v1/categories/{category-id}
-GET http://localhost:8080/api/v1/categories/3
+> {%
+ client.global.set("categoryId", response.body[0].id)
+ client.global.set("categoryName", response.body[0].name)
+ %}
+
+### GET /api/v1/categories/{categoryId}
+GET http://localhost:8080/api/v1/categories/{{categoryId}}
 
 ### GET /api/v1/items/statistics/min-brand-price-group-by-category
 GET http://localhost:8080/api/v1/items/statistics/min-brand-price-group-by-category
@@ -83,5 +108,5 @@ GET http://localhost:8080/api/v1/items/statistics/min-brand-price-group-by-categ
 ### GET /api/v1/items/statistics/min-single-brand-price
 GET http://localhost:8080/api/v1/items/statistics/min-single-brand-price
 
-### GET /api/v1/items/statistics/min-max-price
-GET http://localhost:8080/api/v1/items/statistics/min-max-price?categoryId=1
+### GET /api/v1/items/statistics/min-max-price?categoryName={categoryName}
+GET http://localhost:8080/api/v1/items/statistics/min-max-price?categoryName={{categoryName}}
