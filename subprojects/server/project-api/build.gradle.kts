@@ -1,6 +1,10 @@
+val springdocOpenApiWebMvcVersion = "2.5.0"
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocOpenApiWebMvcVersion}")
 
     implementation(project(":common"))
     implementation(project(":repository:project-jpa-repository"))
