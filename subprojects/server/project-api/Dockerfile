@@ -1,6 +1,6 @@
 FROM openjdk:21-slim-buster AS Builder
 WORKDIR /usr/bin/app
-COPY ../build/libs/*.jar app.jar
+COPY ./build/libs/*.jar app.jar
 
 RUN ["java", "-Djarmode=layertools", "-Dspring.profiles.active=prod", "-jar", "app.jar", "extract"]
 
@@ -19,11 +19,13 @@ COPY --from=builder ${WORK_DIR}/dependencies/ ./
 COPY --from=builder ${WORK_DIR}/spring-boot-loader/ ./
 COPY --from=builder ${WORK_DIR}/snapshot-dependencies/ ./
 COPY --from=builder ${WORK_DIR}/application/ ./
-COPY docker/run-java.sh /usr/bin/run-java.sh
+COPY docker/scripts/run-java.sh /usr/bin/run-java.sh
 
-RUN apt-get update \
-  && apt-get install -y wget  \
-  && apt-get clean
+# Installation curl
+RUN apt-get update && \
+    apt-get install -y curl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # RUN wget -O dd-java-agent.jar 'https://github.com/DataDog/dd-trace-java/releases/latest/download/dd-java-agent.jar'
 

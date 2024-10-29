@@ -25,7 +25,17 @@
 ./gradlew :server:project-api:bootBuildImage
 ```
 
-# Docker Run
 ```bash
-docker run -p 8080:8080 --name project-api com.example.project-api:0.0.1-SNAPSHOT
+export RELEASE_VERSION=0.0.3;
+
+cd subprojects/server/project-api/docker/deployment
+
+bash 1_docker_image_build.sh
+
+bash 2_docker_image_push.sh
+```
+
+# Docker Run Local
+```bash
+docker run -p 8080:8080 --name project-api com.example.project-api:${TAG}
 ```
