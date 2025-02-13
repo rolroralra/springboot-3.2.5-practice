@@ -110,3 +110,8 @@ GET http://localhost:8080/api/v1/items/statistics/min-single-brand-price
 
 ### GET /api/v1/items/statistics/min-max-price?categoryName={categoryName}
 GET http://localhost:8080/api/v1/items/statistics/min-max-price?categoryName={{categoryName}}
+
+
+### GET https://openapi.openbanking.or.kr/v2.0/account/transaction_list/fin_num
+GET https://openapi.openbanking.or.kr/v2.0/account/transaction_list/fin_num
+Authorization: Bearer {{accessToken}}

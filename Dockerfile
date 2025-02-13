@@ -1,7 +1,20 @@
+FROM openjdk:21-slim AS builder
+WORKDIR /usr/src/app
+
+COPY ./gradle/ ./gradle/
+COPY ./build.gradle.kts ./build.gradle.kts
+COPY ./settings.gradle.kts ./settings.gradle.kts
+COPY ./gradle.properties ./gradle.properties
+COPY ./subprojects/ ./subprojects/
+COPY ./gradlew ./gradlew
+COPY ./gradlew.bat ./gradlew.bat
+
+RUN ./gradlew --daemon :server:project-api:clean :server:project-api:build -x test
+
 FROM openjdk:21-slim AS layer_extractor
 WORKDIR /usr/src/app/build
 
-COPY ./build/libs/*.jar app.jar
+COPY --from=builder usr/src/app/subprojects/server/project-api/build/libs/*.jar ./app.jar
 
 RUN ["java", "-Djarmode=layertools", "-Dspring.profiles.active=prod", "-jar", "app.jar", "extract"]
 
